@@ -4,6 +4,7 @@ namespace RBAC\Permissions;
 
 class Resource implements IResource
 {
+    private $id = 0;
     private $name;
     private $resource;
     private $action = array();

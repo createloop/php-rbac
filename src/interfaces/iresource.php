@@ -60,4 +60,17 @@ interface IResource
      * @return bool
      */
     public function save();
+
+    /**
+     * 是否異動
+     * @return bool
+     */
+    public function is_change();
+
+    /**
+     * 是否全新元素
+     * @return bool
+     */
+    public function is_new();
+
 }

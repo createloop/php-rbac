@@ -3,26 +3,16 @@
 namespace RBAC;
 use Permissions\Resource;
 
-class Permissions
+class Permissions implements IPermissions
 {
-    private $name;
-    private $resourecs = array();
-    private $resources_diff = array();
+    private $resourecs;
+    private $resources_diff;
 
-    public function __construct($name)
+    public function __construct($resource = null)
     {
-        $this->name = $name;   
+        $this->addResource($resource);     
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * 增加resource
-     * @param array( name => resource, ) 
-     */
     public function addResource($resource)
     {
         if (is_array($key)) {
@@ -33,11 +23,7 @@ class Permissions
 
     }
 
-    /**
-     * 移除resource
-     * @param callback
-     */
-    public function removeResource($search)
+    public function removeResource($condition)
     {
         if (is_callable($search)) {
             foreach ($this->resources as $key => $value) {
@@ -49,10 +35,6 @@ class Permissions
 
     }
 
-
-    /**
-     * 解構時執行回存
-     */
     public function __destruct()
     {
         if (count($resources_deiff) > 0) {
@@ -60,9 +42,6 @@ class Permissions
         }
     }
 
-    /**
-     * 把檢查resource異動 並做回存
-     */
     public function save()
     {
     }
