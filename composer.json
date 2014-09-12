@@ -1,0 +1,20 @@
+{
+    "name": "rde/rbac",
+    "description": "rbac",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scott",
+            "email": "scott.hsieh@createloop.com"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "files": ["src/"]
+    }
+}
