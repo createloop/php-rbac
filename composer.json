@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4" : {
-            "RBAC\\" : "src/"
+            "RBAC\\" : "src"
         }
     }
 }

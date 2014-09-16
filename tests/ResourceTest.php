@@ -1,5 +1,5 @@
 <?php
-use RBAC;
+use RBAC\Resource;
 class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetName()
