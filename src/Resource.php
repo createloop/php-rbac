@@ -1,6 +1,7 @@
 <?php
 
-namespace RBAC\Permissions;
+namespace RBAC;
+use RBAC\Interfaces\IResource;
 
 class Resource implements IResource
 {
@@ -51,7 +52,7 @@ class Resource implements IResource
 
     public function isAction($action)
     {
-        return in_array($action, $this->action)
+        return in_array($action, $this->action);
     }
 
 

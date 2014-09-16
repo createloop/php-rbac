@@ -8,13 +8,19 @@
             "email": "scott.hsieh@createloop.com"
         }
     ],
+     "repositories": [
+         {
+             "type": "vcs",
+             "url": "git@github.com:createloop/php-rbac.git"
+         }
+     ],
     "require": {
+        "php": ">=5.4.0"
 
     },
-    "require-dev": {
-        "phpunit/phpunit": "~4.0"
-    },
     "autoload": {
-        "files": ["src/"]
+        "psr-4" : {
+            "RBAC\\" : "src/"
+        }
     }
 }
