@@ -14,12 +14,6 @@ interface IResource
     const ACTION_PUT = 'put';
 
     /**
-     * 取得資源唯一id
-     * @return int id
-     */
-    public function getId();
-
-    /**
      * 取得資源名稱
      * @return string
      */
@@ -50,27 +44,17 @@ interface IResource
     public function getAction();
 
     /**
+     * 判斷是否有存取動作
+     * @param get post delete put
+     * @return bool
+     */
+    public function isAction($action);
+
+    /**
      * 設定資源存取動作
      * @param string
      */
-    public function setAction(IResource $action);
+    public function setAction($action);
 
-    /**
-     * 儲存資源設定
-     * @return bool
-     */
-    public function save();
-
-    /**
-     * 是否異動
-     * @return bool
-     */
-    public function is_change();
-
-    /**
-     * 是否全新元素
-     * @return bool
-     */
-    public function is_new();
 
 }
