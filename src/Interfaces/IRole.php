@@ -4,6 +4,8 @@ namespace RBAC\Interfaces;
 
 interface IRole
 {
+    public function getId();
+
     /**
      * 取得名稱
      * @return string

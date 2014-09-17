@@ -13,6 +13,8 @@ interface IResource
     const ACTION_DELETE = 'delete';
     const ACTION_PUT = 'put';
 
+    public function getId();
+
     /**
      * 取得資源名稱
      * @return string
@@ -54,7 +56,7 @@ interface IResource
      * 設定資源存取動作
      * @param string
      */
-    public function setAction($action);
+    public function setAction(Array $action);
 
 
 }

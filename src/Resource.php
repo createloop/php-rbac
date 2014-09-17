@@ -5,19 +5,21 @@ use RBAC\Interfaces\IResource;
 
 class Resource implements IResource
 {
-    private $id = 0;
     private $name;
     private $resource;
     private $action = array();
-    private $is_change = false;
-    private $is_new = false;
 
     public function __construct($name, $resource, Array $action)
     {
         $this->name = $name;
         $this->resource = $resource;
-        $this->action = $action;
+        $this->action = array_unique($action);
         $this->is_new = true;
+    }
+
+    public function getId()
+    {
+        //空實作 主要是給Proxy實作
     }
 
     public function setName($name)
@@ -40,9 +42,9 @@ class Resource implements IResource
         return $this->action;
     }
 
-    public function setAction($action)
+    public function setAction(Array $action)
     {
-        $this->action = $action;
+        $this->action = array_unique($this->action + $action);
     }
 
     public function setResource($resource)

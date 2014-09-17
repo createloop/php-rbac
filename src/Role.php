@@ -6,10 +6,14 @@ class Role
     private $name;
     private $resources = array();
 
-    public function __construct($name, Array $resources = array())
+    public function __construct($name)
     {
-        $this->name = name;
-        $this->resouces = $resouces;
+        $this->name = $name;
+    }
+
+    public function getId()
+    {
+        //空實作 主要給proxy實作
     }
 
     public function getName()
@@ -37,7 +41,7 @@ class Role
     }
 
     public function getResources($resource = null)
-    { 
+    {
         $return = array();
         if (is_callabe($resource)) {
             foreach ($this->resources as $item) {
@@ -48,11 +52,11 @@ class Role
 
             return $return;
         }
-        
-        if (is_string($resource) {
+
+        if (is_string($resource)) {
             foreach ($this->resource as $item) {
                 if($item->getName() === $resource) {
-                    $return[] = $item    
+                    $return[] = $item;
                 }
             }
 
@@ -60,5 +64,5 @@ class Role
         }
 
         return $this->resources;
-    } 
+    }
 }

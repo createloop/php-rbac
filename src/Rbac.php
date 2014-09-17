@@ -10,14 +10,14 @@ class Rbac
 
     public function __construct($user)
     {
-        $this->user = $user; 
+        $this->user = $user;
     }
 
     public function getUser()
     {
         return $this->user;
     }
-    
+
 
     public function addRole(IRole $role)
     {
@@ -34,8 +34,8 @@ class Rbac
         foreach ($this->roles as $role) {
             $rs = $role->getResources($resource);
             foreach ($rs as $value) {
-                if ($value->isAction($action) {
-                    
+                if ($value->isAction($action)) {
+
                     return true;
                 }
             }
