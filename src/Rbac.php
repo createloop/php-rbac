@@ -1,7 +1,7 @@
 <?php
 
 namespace RBAC;
-use RBAC\interfaces;
+use RBAC\Storage\AbstractStorage;
 
 class Rbac
 {
@@ -11,11 +11,12 @@ class Rbac
 
     public function __construct($userId, AbstractStorage $storage)
     {
-        $this->$storage = $storage;
-        $userRole = $this->$storage->getUserRole($userId);
-        if (count($userRole) > 0) {
+        $this->storage = $storage;
+        $userRole = $this->storage->getUserRole($userId);
+
+        if ($userRole) {
             foreach ($userRole as $value) {
-                $this->addRole(new RoleProxy($value, $this->storage));
+                $this->roles[] = new RoleProxy($value['name'], $this->storage);
             }
         }
 

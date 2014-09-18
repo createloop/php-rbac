@@ -32,14 +32,13 @@ class ResourceProxy implements IResource
 
     public function getName()
     {
-        $this->realResource->getName();
+        return $this->realResource->getName();
     }
 
     public function setName($name)
     {
         $this->storage->setResource(array('name' => $name), $this->id);
         $this->realResource->setName($name);
-        return self;
     }
 
     public function getResource()
@@ -51,23 +50,21 @@ class ResourceProxy implements IResource
     {
         $this->storage->setResource(array('resource' => $resource), $this->id);
         $this->realResource->setResource($resource);
-        return self;
     }
 
     public function getAction()
     {
-        $this->realResource->getAction();
+        return $this->realResource->getAction();
     }
 
     public function isAction($action)
     {
-        $this->realResource->isAction($action);
+        return $this->realResource->isAction($action);
     }
 
     public function setAction(Array $action)
     {
         $this->realResource->setAction($action);
-        return self;
     }
 
 

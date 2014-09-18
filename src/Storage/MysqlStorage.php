@@ -76,16 +76,17 @@ class MysqlStorage extends AbstractStorage
 
     /**
     * 取得角色資源
-    * @return array(array('name'=>, '' 'resource'=> ''), array('name'=>, '' 'resource'=> ''),...);
+    * @return array(array('name'=>, '' 'resource'=> '', action => ), array('name'=>, '' 'resource'=> '', action=>),...);
     *
     */
     public function getRoleResource($role_id)
     {
-        $sql = "SELECT resource.name as name, resource.resource as resource, resource.id as id  FROM roleresource
+        $sql = "SELECT resource.name as name, resource.resource as resource, resource.id as id, roleresource.action as action  FROM roleresource
                 INNER JOIN resource on roleresource.resource_id = resource.id
                 WHERE roleresource.role_id = ?";
         $sth = $this->db->prepare($sql);
         $sth->execute(array($role_id));
+
         return $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -139,7 +140,7 @@ class MysqlStorage extends AbstractStorage
 
     public function setResource(Array $param, $resource_id)
     {
-        foreach ($condition as $key => $value) {
+        foreach ($param as $key => $value) {
             $set[] = $key ."= ?";
             $val[] = $value;
         }
@@ -152,7 +153,8 @@ class MysqlStorage extends AbstractStorage
 
     public function assignRole($role_id, $resource_id, $action)
     {
-        $sql = "INSERT roleresource (role_id, $resource_id, action) VALUES (?, ?, ?)";
+        $sql = "INSERT roleresource (role_id, resource_id, action) VALUES (?, ?, ?)
+                ON DUPLICATE KEY UPDATE action = VALUES(action)";
         $sth = $this->db->prepare($sql);
         $sth->execute(array($role_id, $resource_id, $action));
     }
