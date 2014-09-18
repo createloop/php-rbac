@@ -33,7 +33,11 @@ class RoleProxy implements IRole
         if ($roleResource) {
             foreach ($roleResource as $value) {
                 $resource = new ResourceProxy($value['name'], $value['resource'], $this->storage);
+
+                //從db assign 值給物件
                 $resource->setAction(explode("|", $value['action']));
+
+                //resource 推入
                 $this->addResource($resource);
             }
         }

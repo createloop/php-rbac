@@ -125,7 +125,7 @@ class MysqlStorage extends AbstractStorage
             $val[] = $value;
         }
         $set = implode(" , ", $set);
-        $sql = "UPDATE role ".$set." where id = ?";
+        $sql = "UPDATE role SET ".$set." where id = ?";
         $sth = $this->db->prepare($sql);
         $val[] = $role_id;
         $sth->execute($val);
@@ -145,7 +145,7 @@ class MysqlStorage extends AbstractStorage
             $val[] = $value;
         }
         $set = implode(" , ", $set);
-        $sql = "UPDATE resource ".$set." where id = ?";
+        $sql = "UPDATE resource SET ".$set." where id = ?";
         $sth = $this->db->prepare($sql);
         $val[] = $resource_id;
         $sth->execute($val);
