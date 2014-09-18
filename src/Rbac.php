@@ -6,27 +6,27 @@ use RBAC\interfaces;
 class Rbac
 {
     private $roles = array();
-    private $user;
+    private $userId;
+    private $storage;
 
-    public function __construct($user)
+    public function __construct($userId, AbstractStorage $storage)
     {
-        $this->user = $user;
+        $this->$storage = $storage;
+        $userRole = $this->$storage->getUserRole($userId);
+        if (count($userRole) > 0) {
+            foreach ($userRole as $value) {
+                $this->addRole(new RoleProxy($value, $this->storage));
+            }
+        }
+
+        $this->userId = $userId;
+
     }
+
 
     public function getUser()
     {
-        return $this->user;
-    }
-
-
-    public function addRole(IRole $role)
-    {
-        $this->roles[$role->getName()] = $role;
-    }
-
-    public function removeRole($rolename)
-    {
-        unset($this->roles[$rolename]);
+        return $this->userId;
     }
 
     public function auth($resource, $action)

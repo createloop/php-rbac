@@ -1,7 +1,6 @@
 {
-    "name": "rde/rbac",
+    "name": "php-rbac",
     "description": "rbac",
-    "license": "MIT",
     "authors": [
         {
             "name": "Scott",
