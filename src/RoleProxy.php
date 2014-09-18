@@ -1,9 +1,11 @@
 <?php
 
 namespace RBAC;
-use RBAC\Intefaces\IRole;
+use RBAC\Interfaces\IRole;
+use RBAC\Interfaces\IResource;
 use RBAC\Role\Role;
-
+use RBAC\Storage\AbstractStorage
+;
 class RoleProxy implements IRole
 {
     private $realRole;
@@ -17,19 +19,22 @@ class RoleProxy implements IRole
         $role = $this->storage->getRole(array('name' => $name));
 
         //沒有資料 新建一筆
-        if ($role === null) {
+        if (!$role) {
             $role = $this->storage->addRole($name);
         }
         $this->id = $role['id'];
 
         //角色實體指定
-        $this->realRole = new Role($name);
+       $this->realRole = new Role($name);
 
         //撈角色下面的所有權限
-        $roleResource = $this->storage->getRoleResource(array('role_id' => $role['id']));
-        if (count($roleResouce) > 0) {
+        $roleResource = $this->storage->getRoleResource($role['id']);
+
+        if ($roleResource) {
             foreach ($roleResource as $value) {
-                $this->addResource(new ResourceProxy($value['name'], $value['resource'], $this->storage));
+                $resource = new ResourceProxy($value['name'], $value['resource'], $this->storage);
+                $resource->setAction(explode("|", $value['action']));
+                $this->addResource($resource);
             }
         }
 
@@ -47,7 +52,7 @@ class RoleProxy implements IRole
 
     public function addResource(IResource $resource)
     {
-        $this->storage->assignRole($this->id, $resource->getId(), $resource->getAction());
+        $this->storage->assignRole($this->id, $resource->getId(), implode("|", $resource->getAction()));
         $this->realRole->addResource($resource);
     }
 
@@ -62,5 +67,10 @@ class RoleProxy implements IRole
         $this->storage->setRole(array('name' => $name), array('id' => $this->id));
         $this->realRole->setName($name);
 
+    }
+
+    public function getName()
+    {
+        return $this->realRole->name;
     }
 }

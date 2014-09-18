@@ -1,6 +1,6 @@
 <?php
 namespace RBAC\Role;
-
+use RBAC\Interfaces\IResource;
 class Role
 {
     private $name;
@@ -43,7 +43,7 @@ class Role
     public function getResources($resource = null)
     {
         $return = array();
-        if (is_callabe($resource)) {
+        if (is_callable($resource)) {
             foreach ($this->resources as $item) {
                 if ($resource($item)) {
                     $return[] = $item;
@@ -54,8 +54,8 @@ class Role
         }
 
         if (is_string($resource)) {
-            foreach ($this->resource as $item) {
-                if($item->getName() === $resource) {
+            foreach ($this->resources as $item) {
+                if($item->getResource() === $resource) {
                     $return[] = $item;
                 }
             }
