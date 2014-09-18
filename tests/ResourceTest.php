@@ -1,5 +1,6 @@
 <?php
-use RBAC\Resource;
+use RBAC\Resource\Resource;
+use RBAC\Storage\MysqlStorage;
 class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAndSetName()
@@ -8,7 +9,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $a->getName());
         $a->setName('test2');
         $this->assertEquals('test2', $a->getName());
-        
+
     }
 
     public function testGetAndSetResource()
@@ -31,5 +32,6 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $a->isAction('delete'));
         $this->assertEquals(true, $a->isAction('put'));
     }
+
 
 }

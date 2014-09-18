@@ -1,5 +1,5 @@
 <?php
-namespace RBAC;
+namespace RBAC\Role;
 
 class Role
 {

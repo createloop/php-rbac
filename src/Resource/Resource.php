@@ -1,6 +1,6 @@
 <?php
 
-namespace RBAC;
+namespace RBAC\Resource;
 use RBAC\Interfaces\IResource;
 
 class Resource implements IResource
