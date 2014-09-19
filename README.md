@@ -29,28 +29,28 @@ Usage:
 
 驗證：
 
-   ``` php
-   $rbac = new Rbac("user_id", AbstractStorage storage);
-   $rbac->auth("controller/action/resource","get"); //return true or false
-   ```
+``` php
+$rbac = new Rbac("user_id", AbstractStorage storage);
+$rbac->auth("controller/action/resource","get"); //return true or false
+```
 
 建構新 resource：
 
-    ``` php
-    $resource = new ResourceProxy($name, $resource, AbstractStorage $storage);
-    ```
+``` php
+$resource = new ResourceProxy($name, $resource, AbstractStorage $storage);
+```
 
 建構新 Role：
 
-    ``` php
-    $role = new RoleProxy($name, AbstractStorage $storage);
-    ```
+``` php
+$role = new RoleProxy($name, AbstractStorage $storage);
+```
 
 賦予Role Resource：
 
-    ``` php
-    $role->addResource($resource);
-    ```
+``` php
+$role->addResource($resource);
+```
 
 
 License
