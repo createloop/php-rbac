@@ -39,6 +39,7 @@ Usage:
     ``` php
     $resource = new ResourceProxy($name, $resource, AbstractStorage $storage);
     ```
+
 建構新 Role：
 
     ``` php
@@ -46,6 +47,7 @@ Usage:
     ```
 
 賦予Role Resource：
+
     ``` php
     $role->addResource($resource);
     ```
