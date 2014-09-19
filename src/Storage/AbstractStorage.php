@@ -14,7 +14,12 @@ abstract class AbstractStorage
      */
     protected static $storage = null;
 
-    abstract static function getInstance();
+    /**
+     * 取得儲存實體
+     * @param  Array  array("dsn" => ..., "account" => ...., "password" => .....,)
+     * @return AbstractStroage instance
+     */
+    abstract static function getInstance(Array $conn = null);
 
 
     abstract public function getAllResource();

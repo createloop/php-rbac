@@ -6,18 +6,27 @@ class MysqlStorage extends AbstractStorage
 {
     private $db;
 
-    public static function getInstance()
+    public static function getInstance(Array $conn = null)
     {
         if (static::$storage === null){
-            static::$storage = new self();
+            static::$storage = new self($conn);
         }
         return static::$storage;
     }
 
-    private function __construct()
+    private function __construct($conn)
     {
-        $dsn = "mysql:host=127.0.0.1;dbname=phprbac";
-        $this->db = new PDO($dsn, 'root', '760804');
+        //有餵入pdo連線參數
+        if (count($conn) != null) {
+            $this->db = new PDO($conn['dsn'], $conn['account'], $conn['password']);
+        } else {
+
+            //走預設config
+            $config = require_once 'config.php';
+            $dsn = "mysql:host=".$config['host'].";"."dbname=".$config['dbname'];
+            $this->db = new PDO($dsn, $config['account'], $config['password']);
+        }
+
     }
     public function getAllResource()
     {
