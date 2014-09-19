@@ -5,7 +5,6 @@ use RBAC\Interfaces\IResource;
 use RBAC\Resource\Resource;
 use RBAC\Storage\AbstractStorage;
 
-
 class ResourceProxy implements IResource
 {
     private $realResource;

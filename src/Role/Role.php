@@ -1,6 +1,7 @@
 <?php
 namespace RBAC\Role;
 use RBAC\Interfaces\IResource;
+
 class Role
 {
     private $name;
