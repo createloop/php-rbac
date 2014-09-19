@@ -4,13 +4,14 @@ namespace RBAC;
 use RBAC\Interfaces\IRole;
 use RBAC\Interfaces\IResource;
 use RBAC\Role\Role;
-use RBAC\Storage\AbstractStorage
-;
+use RBAC\Storage\AbstractStorage;
+
 class RoleProxy implements IRole
 {
     private $realRole;
     private $id;
     private $storage;
+
     public function __construct($name, AbstractStorage $storage)
     {
         $this->storage = $storage;
