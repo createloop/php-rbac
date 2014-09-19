@@ -1,10 +1,11 @@
 {
     "name": "createloop/php-rbac",
     "description": "rbac",
+    "license": "MIT",
     "authors": [
         {
             "name": "Scott",
-            "email": "scott.hsieh@createloop.com"
+            "email": "syhlion@gmail.com"
         }
     ],
      "repositories": [
