@@ -7,7 +7,7 @@ Installation：
 ``` json
 {
     "require": {
-        "createloop/php-rbac": "dev-master"
+        "createloop/php-rbac": "1.0.*@dev"
     }
 }
 ```
