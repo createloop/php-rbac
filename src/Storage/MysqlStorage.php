@@ -1,6 +1,9 @@
 <?php
 namespace RBAC\Storage;
 use \PDO;
+use \Exception;
+
+class MysqlStorageException extends Exception {}
 
 class MysqlStorage extends AbstractStorage
 {
@@ -16,18 +19,44 @@ class MysqlStorage extends AbstractStorage
 
     private function __construct($conn)
     {
-        //有餵入pdo連線參數
-        if (count($conn) != null) {
-            $this->db = new PDO($conn['dsn'], $conn['account'], $conn['password']);
-        } else {
+        try {
 
-            //走預設config
-            $config = require_once 'config.php';
-            $dsn = "mysql:host=".$config['host'].";"."dbname=".$config['dbname'];
-            $this->db = new PDO($dsn, $config['account'], $config['password']);
+            //有餵入pdo連線參數
+            if ($conn != null) {
+                $this->db = new PDO($conn['dsn'], $conn['account'], $conn['password']);
+            } else {
+
+                //走預設config
+                $config = require_once 'config.php';
+                $dsn = "mysql:host=".$config['host'].";"."dbname=".$config['dbname'];
+                $this->db = new PDO($dsn, $config['account'], $config['password']);
+            }
+            $this->db->setAttribute( \PDO::ATTR_EMULATE_PREPARES, false );
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        } catch (PDOException $e) {
+
+            throw new MysqlStorageExceiption($e->getMessage());
+
+        }
+
+
+    }
+
+
+    private function execute($sql, $val)
+    {
+        try {
+
+            $sth = $this->db->prepare($sql);
+            $sth->execute($val);
+            return $sth;
+        } catch (PDOException $e) {
+            throw new MysqlStorageExceiption($e->getMessage());
         }
 
     }
+
     public function getAllResource()
     {
         $sql = "SELECT * FROM resource";
@@ -59,9 +88,10 @@ class MysqlStorage extends AbstractStorage
         $where = implode(" AND ", $where);
         $sql = "SELECT * FROM resource WHERE ".$where." limit 1";
 
-        $sth = $this->db->prepare($sql);
-        $sth->execute($val);
+        $sth = $this->execute($sql, $val);
         return $sth->fetch(PDO::FETCH_ASSOC);
+
+
     }
 
     /**
@@ -77,10 +107,14 @@ class MysqlStorage extends AbstractStorage
         }
         $where = implode(" AND ", $where);
         $sql = "SELECT * FROM role WHERE ".$where." limit 1";
-        $sth = $this->db->prepare($sql);
-        $sth->execute($val);
+
+
+
+        $sth = $this->execute($sql, $val);
 
         return $sth->fetch(PDO::FETCH_ASSOC);
+
+
     }
 
     /**
@@ -93,10 +127,12 @@ class MysqlStorage extends AbstractStorage
         $sql = "SELECT resource.name as name, resource.resource as resource, resource.id as id, roleresource.action as action  FROM roleresource
                 INNER JOIN resource on roleresource.resource_id = resource.id
                 WHERE roleresource.role_id = ?";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($role_id));
+
+        $sth = $this->execute($sql, array($role_id));
 
         return $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+
+
     }
 
     /**
@@ -108,9 +144,12 @@ class MysqlStorage extends AbstractStorage
         $sql = "SELECT role.id as id, role.name as name FROM userrole
                 INNER JOIN role on userrole.role_id = role.id
                 WHERE userrole.user_id = ?";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($user_id));
+
+        $sth = $this->execute($sql, array($user_id));
+
         return $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+
+
     }
 
     /**
@@ -119,8 +158,7 @@ class MysqlStorage extends AbstractStorage
     public function addRole($role_name)
     {
         $sql = "INSERT INTO role (name) value (?)";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($role_name));
+        $sth = $this->execute($sql, array($role_name));
     }
 
     /**
@@ -135,16 +173,15 @@ class MysqlStorage extends AbstractStorage
         }
         $set = implode(" , ", $set);
         $sql = "UPDATE role SET ".$set." where id = ?";
-        $sth = $this->db->prepare($sql);
+
         $val[] = $role_id;
-        $sth->execute($val);
+        $sth = $this->execute($sql, array($val));
     }
 
     public function addResource(Array $param)
     {
         $sql = "INSERT INTO resource (name, resource) value (?, ?)";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($param['name'], $param['resource']));
+        $this->execute($sql, array($param['name'], $param['resource']));
     }
 
     public function setResource(Array $param, $resource_id)
@@ -155,37 +192,32 @@ class MysqlStorage extends AbstractStorage
         }
         $set = implode(" , ", $set);
         $sql = "UPDATE resource SET ".$set." where id = ?";
-        $sth = $this->db->prepare($sql);
         $val[] = $resource_id;
-        $sth->execute($val);
+        $this->execute($sql,  $val);
     }
 
     public function assignRole($role_id, $resource_id, $action)
     {
         $sql = "INSERT roleresource (role_id, resource_id, action) VALUES (?, ?, ?)
                 ON DUPLICATE KEY UPDATE action = VALUES(action)";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($role_id, $resource_id, $action));
+        $this->execute($sql,  array($role_id, $resource_id, $action));
     }
 
     public function unassignRole($role_id, $resource_id)
     {
         $sql = "DELETE roleresource WHERE role_id = ? AND resource_id = ?";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($role_id, $resource_id));
+        $this->execute($sql,  array($role_id, $resource_id));
     }
 
     public function assignUser($user_id, $role_id)
     {
         $sql = "INSERT userrole (user_id, $role_id) VALUES (?, ?)";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($user_id, $role_id));
+        $this->execute($sql,  array($user_id, $role_id));
     }
 
     public function unassignUser($user_id, $role_id)
     {
         $sql = "DELETE userrole WHERE user_id = ? AND role_id = ?";
-        $sth = $this->db->prepare($sql);
-        $sth->execute(array($user_id, $role_id));
+        $this->execute($sql,  array($user_id, $role_id));
     }
 }
