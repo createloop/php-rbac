@@ -3,6 +3,7 @@
 namespace RBAC\Storage;
 
 
+
 /**
  * db 須繼承此界面
  *
