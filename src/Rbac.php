@@ -2,21 +2,28 @@
 
 namespace RBAC;
 use RBAC\Storage\AbstractStorage;
+use \Exception;
 
-class Rbac
+class RbacException extends Exception {}
+
+class Rbac extends Base
 {
     private $roles = array();
     private $userId;
-    private $storage;
 
     public function __construct($userId, AbstractStorage $storage)
     {
-        $this->storage = $storage;
+        parent::__construct($storage);
         $userRole = $this->storage->getUserRole($userId);
 
         if ($userRole) {
             foreach ($userRole as $value) {
-                $this->roles[] = new RoleProxy($value['name'], $this->storage);
+                try {
+                    $this->roles[] = new RoleProxy($value['name'], $this->storage);
+                } catch (RoleProxyException $e) {
+                    throw new RbacException("NO RoleProxyData");
+                }
+
             }
         }
 
