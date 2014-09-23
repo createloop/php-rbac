@@ -2,15 +2,21 @@
 
 namespace RBAC;
 
-
+use RBAC\Interfaces\IFactory;
+use RBAC\Storage\AbstractStorage;
+use RBAC\Role\Role;
+use RBAC\Role\RoleProxy;
+use RBAC\Resource\Resource;
+use RBAC\Resource\ResourceProxy;
 
 class Admin extends Base
 {
-    private $storage;
+    private $factory;
 
-    public function __construct(AbstractStorage $storage)
+    public function __construct(IFactory $factory, AbstractStorage $storage)
     {
         parent::__construct($storage);
+        $this->factory= $factory;
     }
 
     /**
@@ -22,7 +28,7 @@ class Admin extends Base
     public function createResource($name, $resource)
     {
         $this->storage->addResource($name, $resource);
-        return new ResourceProxy($name, $resource, $this->storage);
+        return $factory->getResourceProxy($name, $resource, $this->storage);
     }
 
     /**
@@ -32,8 +38,8 @@ class Admin extends Base
      */
     public function createRole($role)
     {
-         $this->storage->addRole($name);
-        return new RoleProxy($name, $resource, $this->storage);
+        $this->storage->addRole($role);
+        return $factory->getRoleProxy($role, $this->storage);
     }
 
 }
