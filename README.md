@@ -7,7 +7,7 @@ Installation：
 ``` json
 {
     "require": {
-        "createloop/php-rbac": "1.0.*@dev"
+        "createloop/php-rbac": "1.1.*@dev"
     }
 }
 ```
@@ -30,20 +30,22 @@ Usage:
 驗證：
 
 ``` php
-$rbac = new Rbac("user_id", AbstractStorage storage);
+$rbac = new Rbac("user_id",new ProxyFactory(), AbstractStorage storage);
 $rbac->auth("controller/action/resource","get"); //return true or false
 ```
 
 建構新 resource：
 
 ``` php
-$resource = new ResourceProxy($name, $resource, AbstractStorage $storage);
+$admin = new admin(new ProxyFactory(AbstractStorage $storage), AbstractStorage $storage);
+$resource = $admin->createResource($name, $resource);
 ```
 
 建構新 Role：
 
 ``` php
-$role = new RoleProxy($name, AbstractStorage $storage);
+$admin = new admin(new ProxyFactory(AbstractStorage $storage), AbstractStorage $storage);
+$role = $resource = $admin->createRole($name);
 ```
 
 賦予Role Resource：

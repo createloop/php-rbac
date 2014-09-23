@@ -1,27 +1,33 @@
 <?php
 
-namespace RBAC;
+namespace RBAC\Resource;
 use RBAC\Interfaces\IResource;
 use RBAC\Resource\Resource;
 use RBAC\Storage\AbstractStorage;
+use RBAC\Base;
+use \Exception;
 
-class ResourceProxy implements IResource
+class ResourceProxyException extends Exception {}
+
+class ResourceProxy extends Base implements IResource
 {
     private $realResource;
-    private $id = 0;
-    private $storage;
-    public function __construct($name, $resource, AbstractStorage $storage)
-    {
-        $this->storage = $storage;
 
-        $rs = $this->storage->getResource(array('name' => $name, 'resource' => $resource));
+    private $id = 0;
+
+    public function __construct(IResource $resource, AbstractStorage $storage)
+    {
+        parent::__construct($storage);
+
+        $rs = $this->storage->getResource(array('name' => $resource->getName(), 'resource' => $resource->getResource()));
         if (!$rs) {
-            $rs = $this->storage->addResource(array('name' => $name, 'resource' => $resource));
+
+            throw new ResourceProxyException("NO ResourceData");
         }
         $this->id = $rs['id'];
 
 
-        $this->realResource = new Resource($name, $resource, array());
+        $this->realResource = $resource;
     }
 
     public function getId()

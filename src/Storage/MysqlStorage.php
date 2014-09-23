@@ -178,10 +178,10 @@ class MysqlStorage extends AbstractStorage
         $sth = $this->execute($sql, array($val));
     }
 
-    public function addResource(Array $param)
+    public function addResource($name, $resource)
     {
         $sql = "INSERT INTO resource (name, resource) value (?, ?)";
-        $this->execute($sql, array($param['name'], $param['resource']));
+        $this->execute($sql, array($name, $resource));
     }
 
     public function setResource(Array $param, $resource_id)
