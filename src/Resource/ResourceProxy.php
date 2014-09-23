@@ -1,9 +1,10 @@
 <?php
 
-namespace RBAC;
+namespace RBAC\Resource;
 use RBAC\Interfaces\IResource;
 use RBAC\Resource\Resource;
 use RBAC\Storage\AbstractStorage;
+use RBAC\Base;
 use \Exception;
 
 class ResourceProxyException extends Exception {}
@@ -11,8 +12,10 @@ class ResourceProxyException extends Exception {}
 class ResourceProxy extends Base implements IResource
 {
     private $realResource;
+
     private $id = 0;
-    public function __construct($name, $resource, AbstractStorage $storage)
+
+    public function __construct(IResource $resource, AbstractStorage $storage)
     {
         parent::__construct($storage);
 
@@ -24,7 +27,7 @@ class ResourceProxy extends Base implements IResource
         $this->id = $rs['id'];
 
 
-        $this->realResource = new Resource($name, $resource, array());
+        $this->realResource = $resource;
     }
 
     public function getId()
