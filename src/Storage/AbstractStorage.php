@@ -65,7 +65,7 @@ abstract class AbstractStorage
     */
     abstract public function setRole(Array $param, $role_id);
 
-    abstract public function addResource(Array $param);
+    abstract public function addResource($name, $resource);
 
     abstract public function setResource(Array $param, $resource_id);
 
