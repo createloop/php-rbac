@@ -1,5 +1,5 @@
 <?php
-namespace Interfaces;
+namespace RBAC\Interfaces;
 
 Interface IFactory
 {

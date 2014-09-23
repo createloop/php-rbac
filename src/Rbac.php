@@ -33,7 +33,7 @@ class Rbac extends Base
                         //從角色找尋有哪些resource
                         foreach ($roleResource as $resourceValue) {
                             try {
-                                $resource = $factory->getReosurceProxy($resourceValue['name'], $resourceValue['resource'], $this->storage);
+                                $resource = $factory->getResourceProxy($resourceValue['name'], $resourceValue['resource'], $this->storage);
 
                                 //從db assign 值給物件
                                 $resource->setAction(explode("|", $resourceValue['action']));

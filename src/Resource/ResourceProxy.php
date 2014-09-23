@@ -19,7 +19,7 @@ class ResourceProxy extends Base implements IResource
     {
         parent::__construct($storage);
 
-        $rs = $this->storage->getResource(array('name' => $name, 'resource' => $resource));
+        $rs = $this->storage->getResource(array('name' => $resource->getName(), 'resource' => $resource->getResource()));
         if (!$rs) {
 
             throw new ResourceProxyException("NO ResourceData");

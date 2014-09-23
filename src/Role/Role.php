@@ -1,8 +1,9 @@
 <?php
 namespace RBAC\Role;
 use RBAC\Interfaces\IResource;
+use RBAC\Interfaces\IRole;
 
-class Role
+class Role implements IRole
 {
     private $name;
     private $resources = array();

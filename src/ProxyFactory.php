@@ -2,8 +2,8 @@
 
 namespace RBAC;
 
-use Interfaces\IFactory;
-use Storage\AbstractStorage;
+use RBAC\Interfaces\IFactory;
+use RBAC\Storage\AbstractStorage;
 
 class ProxyFactory extends Base implements IFactory
 {

@@ -21,7 +21,7 @@ class RoleProxy extends Base implements IRole
         parent::__construct($storage);
 
         //撈角色資料
-        $role = $this->storage->getRole(array('name' => $name));
+        $role = $this->storage->getRole(array('name' => $realRole->getName()));
 
         //沒有資料 新建一筆
         if (!$role) {
