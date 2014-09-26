@@ -1,12 +1,12 @@
 <?php
 namespace RBAC;
 
-use RBAC\Storage\AbstractStorage;
+use RBAC\Interfaces\IStorage;
 
 abstract class Base
 {
     protected $storage;
-    public function __construct(AbstractStorage $storage)
+    public function __construct(IStorage $storage)
     {
         $this->storage = $storage;
     }
