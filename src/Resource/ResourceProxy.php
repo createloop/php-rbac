@@ -2,6 +2,7 @@
 
 namespace RBAC\Resource;
 use RBAC\Interfaces\IResource;
+use RBAC\Interfaces\IStorage;
 use RBAC\Resource\Resource;
 use RBAC\Storage\AbstractStorage;
 use RBAC\Base;
@@ -15,7 +16,7 @@ class ResourceProxy extends Base implements IResource
 
     private $id = 0;
 
-    public function __construct(IResource $resource, AbstractStorage $storage)
+    public function __construct(IResource $resource, IStorage $storage)
     {
         parent::__construct($storage);
 
