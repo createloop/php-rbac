@@ -3,6 +3,7 @@
 namespace RBAC;
 
 use RBAC\Interfaces\IFactory;
+use RBAC\Interfaces\IStorage;
 use RBAC\Storage\AbstractStorage;
 use RBAC\Role\Role;
 use RBAC\Role\RoleProxy;
@@ -13,7 +14,7 @@ class Admin extends Base
 {
     private $factory;
 
-    public function __construct(IFactory $factory, AbstractStorage $storage)
+    public function __construct(IFactory $factory, IStorage $storage)
     {
         parent::__construct($storage);
         $this->factory= $factory;

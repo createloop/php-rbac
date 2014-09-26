@@ -1,23 +1,16 @@
 <?php
 namespace RBAC\Storage;
+use RBAC\Interfaces\IStorage;
 use \PDO;
 use \Exception;
 
 class MysqlStorageException extends Exception {}
 
-class MysqlStorage extends AbstractStorage
+class MysqlStorage implements IStorage
 {
     private $db;
 
-    public static function getInstance(Array $conn = null)
-    {
-        if (static::$storage === null){
-            static::$storage = new self($conn);
-        }
-        return static::$storage;
-    }
-
-    private function __construct($conn)
+    public function __construct(Array $conn = null)
     {
         try {
 

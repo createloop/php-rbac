@@ -3,6 +3,7 @@
 namespace RBAC;
 use RBAC\Storage\AbstractStorage;
 use RBAC\Interfaces\IFactory;
+use RBAC\Interfaces\IStorage;
 use RBAC\Role\RoleProxy;
 use RBAC\Resource\ResourceProxy;
 use \Exception;
@@ -14,7 +15,7 @@ class Rbac extends Base
     private $roles = array();
     private $userId;
 
-    public function __construct($userId, IFactory $factory, AbstractStorage $storage)
+    public function __construct($userId, IFactory $factory, IStorage $storage)
     {
         parent::__construct($storage);
         $userRole = $this->storage->getUserRole($userId);
