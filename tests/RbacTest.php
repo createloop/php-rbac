@@ -8,7 +8,7 @@ class RbacTest extends \PHPUnit_Framework_TestCase
     protected $rbac;
     public function setUp()
     {
-        $storage = MysqlStorage::getInstance();
+        $storage = new MysqlStorage();
         $this->rbac = new Rbac(1, new ProxyFactory($storage), $storage);
     }
 

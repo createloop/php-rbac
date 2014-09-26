@@ -5,6 +5,7 @@ namespace RBAC\Role;
 use RBAC\Base;
 use RBAC\Interfaces\IRole;
 use RBAC\Interfaces\IResource;
+use RBAC\Interfaces\IStorage;
 use RBAC\Storage\AbstractStorage;
 use \Exception;
 
@@ -16,7 +17,7 @@ class RoleProxy extends Base implements IRole
     private $id;
 
 
-    public function __construct(IRole $realRole, AbstractStorage $storage)
+    public function __construct(IRole $realRole, IStorage $storage)
     {
         parent::__construct($storage);
 
